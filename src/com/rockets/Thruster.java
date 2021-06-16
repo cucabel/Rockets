@@ -6,7 +6,7 @@ public class Thruster implements DriveInterface {
 	private int maxPower;
 	private int currentPower;
 	
-	public Thruster () {}
+	public Thruster() {}
 	
 	public Thruster(int maxPower, int currentPower) {
 		this.maxPower = maxPower;

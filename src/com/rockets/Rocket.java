@@ -16,7 +16,7 @@ public class Rocket {
 	private int n = 0;
 	
 	public Rocket() {};
-
+	
 	public Rocket(String code, int thrustersNumber, int [] thrustersMaxPowerArray) throws Exception {
 		validateCode(code);
 		this.thrustersNumber = thrustersNumber;
@@ -64,7 +64,7 @@ public class Rocket {
 	public void setN(int n) {
 		this.n = n;
 	}
-	
+		
 	public void validateCode(String code) throws Exception {
 		Pattern pattern = Pattern.compile("\\w\\w\\w\\w\\w\\w\\w\\w");		
 		Matcher matcher = pattern.matcher(code);
@@ -74,7 +74,7 @@ public class Rocket {
 			this.code = code;
 	}
 	
-	private void addThrusters(int [] thrustersMaxPowerArray) {	
+	private void addThrusters(int [] thrustersMaxPowerArray) {
 		int thrusterMaxPower = 0;
 		int currentPower = 0;
 		
@@ -83,14 +83,15 @@ public class Rocket {
 			thrustersList.add(new Thruster(thrusterMaxPower, currentPower));
 		}
 		System.out.println(thrustersList);
-	}
-	
+	}	
+
 	public int rocketMaxPower() {
 		int maxPower = 0;
 		
 		Iterator<Thruster> iterator = thrustersList.iterator();
 		
-		while (iterator.hasNext()) {
+		while (iterator.hasNext())
+		{
 			Thruster value = iterator.next();
 			
 			if(value.getMaxPower() > maxPower)
@@ -99,14 +100,15 @@ public class Rocket {
 		return maxPower;	
 	}
 	
-	public void accelerate(int n) {		
+	public void accelerate(int n) {
 		ExecutorService executor = Executors.newFixedThreadPool(this.getThrustersNumber());			
 			for (int i = 0; i < this.thrustersNumber; i++) {
 				Thruster oneThruster = thrustersList.get(i);
 				
 			    Runnable r1 = new Runnable() {
 			        @Override
-			        public void run() {
+			        public void run()									
+			        {
 			        	oneThruster.accelerate(n);											
 			        	
 			    			if (oneThruster.getCurrentPower() > rocketMaxPower()) 
@@ -118,7 +120,7 @@ public class Rocket {
 			executor.shutdown();
 			while (!executor.isTerminated()) {}
 	}
-
+	
 	public void brake(int n) {
 		ExecutorService executor = Executors.newFixedThreadPool(this.getThrustersNumber());			
 			for (int i = 0; i < this.thrustersNumber; i++) {
@@ -137,6 +139,22 @@ public class Rocket {
 			  }  
 			executor.shutdown();
 			while (!executor.isTerminated()) {}
+	}
+
+	public double currentSpeed() {
+		double speed = 0;
+		double inicialspeed = 0;
+		
+		double powerSum = 0;		
+		for (Thruster thruster : thrustersList) {
+			if (thruster.getCurrentPower() > thruster.getMaxPower())
+				thruster.setCurrentPower(thruster.getMaxPower());
+			
+			powerSum += thruster.getCurrentPower();
+		}
+		
+		speed = inicialspeed + (100 * Math.sqrt(powerSum));
+		return speed;
 	}
 
 	public String toString() {
