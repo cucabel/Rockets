@@ -1,5 +1,4 @@
 # Rockets
-Threads
 
 A rocket is identified with a code and a number of thrusters. We create two rockets with codes "32WESSDS" AND "LDSFJA32".
 
